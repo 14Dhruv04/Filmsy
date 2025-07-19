@@ -39,7 +39,7 @@ function App() {
     setLoading(true);
     try {
       // Step 1: Get recommendations from FastAPI backend
-      const res = await fetch(`http://localhost:8000/recommend?movie=${movie}`);
+      const res = await fetch(`https://filmsy.vercel.app/recommend?movie=${movie}`);
       const data = await res.json();
 
       if (!data.recommendations || data.recommendations.length === 0) {

@@ -12,7 +12,7 @@ app = FastAPI()
 # Enable CORS so React can access it
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["https://filmsy.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
