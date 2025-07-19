@@ -53,9 +53,27 @@
 
 ## Running the Project Locally
 
-### 1. ⚙Backend Setup
+### 1. Backend Setup
 
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
+```
+Make sure the movies.dat file from MovieLens 1M is placed under backend/Data
+
+### 2. Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm start
+```
+Make sure you set your OMDb API key in .env:
+```env
+REACT_APP_OMDB_API_KEY=your_omdb_key
+```
+
+---
+
+Feel free to fork, contribute and build on top of this. ☺️
