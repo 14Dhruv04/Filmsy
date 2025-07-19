@@ -1,31 +1,3 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-// src/App.js
 import React, { useState } from 'react';
 
 function App() {
@@ -54,18 +26,32 @@ function App() {
 
       const detailedData = await Promise.all(
         data.recommendations.map(async (title) => {
-          const response = await fetch(
-            `https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${OMDB_API_KEY}`
-          );
-          const info = await response.json();
+          try {
+            const response = await fetch(
+              `https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${OMDB_API_KEY}`
+            );
+            const info = await response.json();
 
-          return {
-            title: info.Title || title,
-            poster: info.Poster !== "N/A" ? info.Poster : null,
-            year: info.Year || '',
-          };
+            if (info.Response === "False") {
+              console.warn(`OMDb: No match found for "${title}"`, info.Error);
+            }
+
+            return {
+              title: info.Title || title,
+              poster: info.Poster !== "N/A" ? info.Poster : null,
+              year: info.Year || '',
+            };
+          } catch (e) {
+            console.error(`Failed to fetch OMDb data for "${title}"`, e);
+            return {
+              title,
+              poster: null,
+              year: '',
+            };
+          }
         })
       );
+
 
       setMovieData(detailedData);
     } catch (err) {
